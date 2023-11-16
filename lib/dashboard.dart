@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -129,7 +130,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       floatingActionButton: isVisible
           ? FloatingActionButton(
-              child: Icon(Icons.arrow_upward),
+              child: const Icon(Icons.arrow_upward),
               onPressed: () {
                 _scrollController.animateTo(0,
                     duration: const Duration(milliseconds: 500),
@@ -161,9 +162,7 @@ class _DashboardState extends State<Dashboard> {
                       if (!Responsive.isMobile(context))
                         const Expanded(
                           child: SizedBox(
-                              height: 600,
-                              width: 600,
-                              child: Expanded(child: BioWidget())),
+                              height: 600, width: 600, child: BioWidget()),
                         ),
                       Flexible(
                         child: Image.asset(
@@ -189,6 +188,10 @@ class _DashboardState extends State<Dashboard> {
               const SizedBox(
                 height: 50,
               ),
+              const Projects(),
+              const SizedBox(
+                height: 50,
+              ),
               Cantact(size: size),
               const SizedBox(
                 height: 50,
@@ -197,6 +200,62 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class Projects extends StatelessWidget {
+  const Projects({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          "Projects",
+          style: TextStyle(fontSize: 30),
+        ),
+        CarouselSlider(
+          options: CarouselOptions(height: 400.0),
+          items: [1, 2, 3, 4, 5].map((i) {
+            return Builder(
+              builder: (BuildContext context) {
+                return ProjectShow(
+                  text: i.toString(),
+                );
+              },
+            );
+          }).toList(),
+        )
+      ],
+    );
+  }
+}
+
+class ProjectShow extends StatelessWidget {
+  const ProjectShow({
+    super.key,
+    required this.text,
+  });
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: Container(
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(horizontal: 5.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'text $text',
+              style: TextStyle(fontSize: 16.0),
+            ),
+          )),
     );
   }
 }
@@ -295,7 +354,8 @@ class Cantact extends StatelessWidget {
                 width: size.width / 1.5,
                 child: TextFormField(
                   decoration: InputDecoration(
-                      fillColor: Colors.white,
+                      fillColor:
+                          Theme.of(context).primaryColor.withOpacity(0.1),
                       filled: true,
                       border: OutlineInputBorder(
                           borderSide: BorderSide.none,
@@ -319,7 +379,8 @@ class Cantact extends StatelessWidget {
                 width: size.width / 1.5,
                 child: TextFormField(
                   decoration: InputDecoration(
-                      fillColor: Colors.white,
+                      fillColor:
+                          Theme.of(context).primaryColor.withOpacity(0.1),
                       filled: true,
                       border: OutlineInputBorder(
                           borderSide: BorderSide.none,
@@ -346,7 +407,8 @@ class Cantact extends StatelessWidget {
                   minLines: 5,
                   maxLines: null,
                   decoration: InputDecoration(
-                      fillColor: Colors.white,
+                      fillColor:
+                          Theme.of(context).primaryColor.withOpacity(0.1),
                       filled: true,
                       border: OutlineInputBorder(
                           borderSide: BorderSide.none,
@@ -355,6 +417,17 @@ class Cantact extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        ElevatedButton.icon(
+          style: ButtonStyle(
+              padding: MaterialStatePropertyAll(EdgeInsets.all(16)),
+              fixedSize: MaterialStatePropertyAll(Size(100, 40))),
+          onPressed: () {},
+          icon: Text("Send"),
+          label: Icon(Icons.send),
         )
       ]),
     );
